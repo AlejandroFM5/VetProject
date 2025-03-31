@@ -48,9 +48,11 @@ public class GestionVeterinariaWS {
 	@PostMapping("/guardar")
 	@Operation(summary="GUARDA UNA VETERINARIA", description="Guarda una nueva Veterinaria.")
 	public ResponseEntity<?> saveNewVeterinaria(@RequestBody GestionVeterinaria vtrn) {
-		GestionVeterinaria findVtr = service.saveNewVeterinaria(vtrn);
-		if(findVtr!=null)
+		GestionVeterinaria auxVtrn = service.withOutDuplicateName(vtrn);
+		if(auxVtrn==null) {
+			service.saveNewVeterinaria(vtrn);
 			return ResponseEntity.status(HttpStatus.CREATED).body(vtrn);
+		}
 		return ResponseEntity.status(HttpStatus.CONFLICT).build();
 	}
 	

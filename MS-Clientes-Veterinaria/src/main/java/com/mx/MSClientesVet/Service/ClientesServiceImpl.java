@@ -47,5 +47,10 @@ public class ClientesServiceImpl implements IClientesService{
 		}
 		return null;
 	}
+	
+	public Clientes withOutDuplicatesNames(Clientes clnt) {
+		Clientes auxClt = repository.withOutDuplicates(clnt.getNombre());
+		return auxClt;
+	}
 
 }

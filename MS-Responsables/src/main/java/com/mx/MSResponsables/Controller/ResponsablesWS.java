@@ -47,9 +47,11 @@ public class ResponsablesWS {
 	
 	@PostMapping("/guardar")
 	public ResponseEntity<?> saveNewResponsable(@RequestBody Responsables rpb){
-		Responsables saveRpb = service.saveNewResponsable(rpb);
-		if(saveRpb!=null)
+		Responsables auxRpb = service.withOutDuplicateNames(rpb);
+		if(auxRpb==null) {
+			service.saveNewResponsable(rpb);
 			return ResponseEntity.status(HttpStatus.CREATED).body(rpb);
+		}
 		return ResponseEntity.status(HttpStatus.CONFLICT).build();
 	}
 	

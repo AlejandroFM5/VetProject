@@ -53,6 +53,11 @@ public class ResponsablesServiceImpl implements IResponsablesService{
 		return null;
 	}
 	
+	public Responsables withOutDuplicateNames(Responsables rpb) {
+		Responsables auxRpb = repository.withOutDuplicate(rpb.getNombre());
+		return auxRpb;
+	}
+	
 	//IMPLEMENTACIONES DE VETERINARIAS
 		//METODOS CON REST TEMPLATE
 		@SuppressWarnings("unchecked")

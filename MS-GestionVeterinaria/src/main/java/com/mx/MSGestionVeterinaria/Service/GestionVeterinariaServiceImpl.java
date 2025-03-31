@@ -3,8 +3,6 @@ package com.mx.MSGestionVeterinaria.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mx.MSGestionVeterinaria.Entity.GestionVeterinaria;
@@ -48,6 +46,11 @@ public class GestionVeterinariaServiceImpl implements IGestionVeterinariaService
 			return vtrn;
 		}
 		return null;
+	}
+	
+	public GestionVeterinaria withOutDuplicateName(GestionVeterinaria vtrn) {
+		GestionVeterinaria auxVtrn = repository.withOutDuplicates(vtrn.getNombre());
+		return auxVtrn;
 	}
 
 }

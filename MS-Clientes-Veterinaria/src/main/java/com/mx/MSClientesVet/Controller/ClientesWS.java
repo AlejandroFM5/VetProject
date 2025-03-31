@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,16 +35,19 @@ public class ClientesWS {
 	@PostMapping("/buscar-id")
 	public ResponseEntity<?> findClienteById(@RequestBody Clientes clnt){
 		Clientes saveClnt = service.findClienteById(clnt);
-		if(clnt != null)
+		if(saveClnt != null)
 			return ResponseEntity.status(HttpStatus.OK).body(clnt);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
 	@PostMapping("/guardar")
 	public ResponseEntity<?> saveNewCliente(@RequestBody Clientes clnt){
-		Clientes NewClnt = service.saveNewCliente(clnt);
-		if(NewClnt != null)
+		Clientes auxClnt = service.withOutDuplicatesNames(clnt);
+		//Clientes NewClnt = 
+		if(auxClnt == null) {
+			service.saveNewCliente(clnt);
 			return ResponseEntity.status(HttpStatus.CREATED).body(clnt);
+		}
 		return ResponseEntity.status(HttpStatus.CONFLICT).build();
 	}
 	
